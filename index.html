@@ -1,0 +1,102 @@
+<html>
+<head>
+    <title>The Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-providers@1.0.13/leaflet-providers.js" crossorigin=""></script>
+</head>
+<body>
+    <!-- div для карты -->
+    <div id="mapid" style="height:100%"></div>
+    <script>
+        // Карта
+        var mymap = L.map('mapid',
+        { 'tap': false })
+        .setView([59.95, 30.31], 13)
+        
+        // Слой карты с домами, улицами и т.п.
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(mymap)
+        group = L.layerGroup().addTo(mymap)
+        L.marker([59.95, 30.31]).addTo(group).bindPopup("Hello World")
+        
+        var icon = L.icon({
+            iconUrl: "data:image/png;base64,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",
+            iconSize: [32, 32],
+            iconAnchor: [0, 0],
+            popupAnchor: [0, 0],
+        })
+        // Обрабатываем нажатие на карту
+        function onMapClick(e) {
+            var name = window.prompt('Cat name?')
+            if (name != null) {
+                L.marker(e.latlng).addTo(group).bindPopup(name)
+                
+                /*
+                * Карта использует систему координат на шаре
+                * Tarantool хранит координаты на плоскости
+                * Конвертируем из одной системы в другую
+                */
+                var p = mymap.project(e.latlng, 1)
+                
+                var cat = {
+                    "coordinates": [p.x, p.y],
+                    "name": name,
+                }
+                
+                fetch("/put", {
+                    method: "POST",
+                    body: JSON.stringify(cat)
+                })
+            }
+        }
+        mymap.on('click', onMapClick)
+        
+        var alreadyloaded = {}
+        var popups = {}
+        function addCat(cat) {
+            if (!(cat.id in alreadyloaded)) {
+                var l = mymap.unproject(L.point(cat['coordinates']), 1)
+                
+                var name = cat['name']
+                // Создаем маркер
+                popups[cat.id] = L.marker(l, {"icon": icon}).addTo(group).bindPopup(name)
+                alreadyloaded[cat.id] = cat
+            } else {
+                var l = mymap.unproject(L.point(cat['coordinates']), 1)
+                popups[cat.id].setLatLng(l)
+            }
+        }
+        // Обрабатываем json пришедший с сервера
+        function parse(array) {
+            array.forEach(addCat)
+        }
+        function errorResponse(error) {
+            alert('Error: ' + error)
+        }
+        function handleListResponse(res) {
+            res.json().then(parse).catch(errorResponse)
+        }
+        function onMapMove(e) {
+            var bounds = mymap.getBounds()
+            var northeast = bounds.getNorthEast()
+            var southwest = bounds.getSouthWest()
+            var ne = mymap.project(northeast, 1)
+            var sw = mymap.project(southwest, 1)
+            var options = {
+                "rect": JSON.stringify([ne.x, ne.y, sw.x, sw.y]),
+            }
+            
+            // Отправляем запрос на сервер с получением маркеров
+            fetch("/list?" + new URLSearchParams(options))
+            .then(handleListResponse)
+            .catch(errorResponse)
+        }
+        mymap.on('move', onMapMove)
+        onMapMove()
+        redraw = setInterval(onMapMove, 1)
+    </script>
+</body>
+</html>
